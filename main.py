@@ -1,12 +1,16 @@
-import uasyncio as asyncio
 from wlan import connect_wifi
-#from mqtt import connect_mqtt, publish_data, subscribe_topics
-#from storage import load_params
+import uasyncio as asyncio
+from mqtt import connect_mqtt, publish_status, mqtt_loop
 
 async def main():
-    # Conectar WiFi
-    connect_wifi()
-    
+    connect_wifi()  # Conectar a la red WiFi
+    await connect_mqtt()  # Conectar al broker MQTT
 
-# Iniciar el bucle de asyncio
+    # Iniciar la publicación periódica de parámetros
+    asyncio.create_task(publish_status())
+
+    # Mantener la conexión activa
+    await mqtt_loop()
+
+# Ejecutar el programa
 asyncio.run(main())

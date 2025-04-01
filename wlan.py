@@ -13,7 +13,7 @@ def connect_wifi():
         if wlan.status() < 0 or wlan.status() >= 3:
             break
         max_wait -= 1
-        print('Esperando conexión WiFi...')
+        print('Esperando conexion WiFi...')
         time.sleep(1)
 
     if wlan.status() != 3:
@@ -21,3 +21,5 @@ def connect_wifi():
     else:
         print('Conectado a WiFi')
         print('IP:', wlan.ifconfig()[0])
+
+    print('Datos de la red: ', wlan.ifconfig())
