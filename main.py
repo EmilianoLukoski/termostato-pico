@@ -30,9 +30,9 @@ async def guardar_config():
         }
         with open(CONFIG_FILE, "w") as f:
             json.dump(data, f)
-        print("Configuración guardada correctamente.")
+        print("Configuracion guardada correctamente.")
     except Exception as e:
-        print(f"Error al guardar configuración: {e}")
+        print(f"Error al guardar configuracion: {e}")
 
 async def cargar_config():
     global setpoint, periodo, modo, estado_rele
@@ -43,9 +43,9 @@ async def cargar_config():
             periodo = data.get("periodo", 10)
             modo = data.get("modo", 1)
             estado_rele = data.get("estado_rele", 0)
-        print("Configuración cargada correctamente.")
+        print("Configuracion cargada correctamente.")
     except (OSError, ValueError) as e:
-        print(f"Error al cargar configuración: {e}")
+        print(f"Error al cargar configuracion: {e}")
         setpoint, periodo, modo, estado_rele = 25, 10, 1, 0
         asyncio.create_task(guardar_config())
 
@@ -65,14 +65,14 @@ while max_wait > 0:
     if wlan.status() < 0 or wlan.status() >= 3:
         break
     max_wait -= 1
-    print("Esperando conexión...")
+    print("Esperando conexion...")
     time.sleep(1)
 
 if wlan.status() != 3:
-    raise RuntimeError("Error en la conexión de red")
+    raise RuntimeError("Error en la conexion de red")
 else:
     print("Conectado a WiFi")
-    print("Dirección IP:", wlan.ifconfig()[0])
+    print("Direccion IP:", wlan.ifconfig()[0])
 
 # Configuración MQTT
 config['server'] = BROKER
@@ -172,6 +172,7 @@ async def main(client):
             "periodo": periodo,
             "modo": modo
         }
+        print(f"[{id}] Publicando en broker: {json.dumps(data)}")
         
         await client.publish(id, json.dumps(data), qos=1)
         await asyncio.sleep(periodo)
